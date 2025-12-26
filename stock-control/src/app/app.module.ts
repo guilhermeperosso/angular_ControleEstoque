@@ -2,22 +2,36 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 import { HttpClientModule } from "@angular/common/http"
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { CardModule } from "primeng/card"
+import { ButtonModule } from "primeng/button"
+import { InputTextModule } from "primeng/inputtext"
+import { ToastModule } from "primeng/toast"
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './modules/home/home.component';
+import { RippleModule } from "primeng/ripple";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    HttpClientModule
-  ],
+    HttpClientModule,
+    // PrimeNG
+    CardModule,
+    InputTextModule,
+    ButtonModule,
+    ToastModule,
+    RippleModule
+],
   providers: [],
   bootstrap: [AppComponent]
 })
