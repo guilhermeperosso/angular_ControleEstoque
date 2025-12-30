@@ -26,7 +26,7 @@
       </form>
 
       <!-- SIGNUP -->
-      <form [formGroup]="signpForm" (ngSubmit)="onSubmitSignUpForm()">
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmitSignUpForm()">
         <p-card styleClass="mt-10" header="Criar Conta" subheader="Crie já sua conta gratuita!" *ngIf="!loginCard">
 
           <div class="flex justify-content-center align-content-center text-align-center">
@@ -42,7 +42,7 @@
           </div>
 
           <div class="flex justify-content-center mt-3">
-            <button type="submit" pButton pRipple label="Criar Conta" [disabled]="!this.signpForm.valid"></button>
+            <button type="submit" pButton pRipple label="Criar Conta" [disabled]="!this.signupForm.valid"></button>
           </div>
 
           <span
