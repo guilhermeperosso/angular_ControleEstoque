@@ -1,7 +1,12 @@
+import { DeleteProductResponse } from './../../models/interfaces/products/response/DeleteProductResponse';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { map, Observable } from 'rxjs';
+
+import { CreateProductRequest } from 'src/app/models/interfaces/products/request/createProductRequest';
+import { EditProductRequest } from 'src/app/models/interfaces/products/request/EditProductRequest';
+import { CreateProductResponse } from 'src/app/models/interfaces/products/response/CreateProductResponse';
 import { GetAllProductsResponse } from 'src/app/models/interfaces/products/response/GetAllProductsResponse';
 import { environment } from 'src/enviroments/enviroment';
 
@@ -27,5 +32,33 @@ export class ProductsService {
         this.httpOptions
       )
       .pipe(map((product) => product.filter((data) => data?.amount > 0)));
+  }
+
+  deleteProduct(product_id: string): Observable<DeleteProductResponse> {
+    return this.http.delete<DeleteProductResponse>(
+      `${this.API_URL}/product/delete`,
+      {
+        ...this.httpOptions,
+        params: { product_id: product_id },
+      }
+    );
+  }
+
+  createProduct(
+    requestData: CreateProductRequest
+  ): Observable<CreateProductResponse> {
+    return this.http.post<CreateProductResponse>(
+      `${this.API_URL}/product`,
+      requestData,
+      this.httpOptions
+    );
+  }
+
+  editProduct(requestData: EditProductRequest): Observable<void> {
+    return this.http.put<void>(
+      `${this.API_URL}/product`,
+      requestData,
+      this.httpOptions
+    );
   }
 }
