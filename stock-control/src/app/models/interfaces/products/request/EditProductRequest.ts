@@ -2,6 +2,7 @@ export interface EditProductRequest {
   name: string;
   price: string;
   description: string;
-  category_id: string;
+  product_id: string;
   amount: number;
+  category_id: string;
 }

@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
-import { EventAction } from 'src/app/models/interfaces/products/event/EventAction';
-import { GetAllProductsResponse } from 'src/app/models/interfaces/products/response/GetAllProductsResponse';
-import { ProductsService } from 'src/app/services/products/products.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ProductsService } from '../../../../services/products/products.service';
 import { ProductsDataTransferService } from 'src/app/shared/services/products/products-data-transfer.service';
+import { GetAllProductsResponse } from 'src/app/models/interfaces/products/response/GetAllProductsResponse';
+import { EventAction } from 'src/app/models/interfaces/products/event/EventAction';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ProductFormComponent } from '../../components/product-form/product-form.component';
 
 @Component({
@@ -29,17 +29,18 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.getServiceProductsData();
+    this.getServiceProductsDatas();
   }
 
-  getServiceProductsData() {
+  getServiceProductsDatas() {
     const productsLoaded = this.productsDtService.getProductsDatas();
+
     if (productsLoaded.length > 0) {
       this.productsList = productsLoaded;
-    } else this.getAPIProductsData();
+    } else this.getAPIProductsDatas();
   }
 
-  getAPIProductsData() {
+  getAPIProductsDatas() {
     this.productsService
       .getAllProducts()
       .pipe(takeUntil(this.destroy$))
@@ -53,7 +54,7 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
           console.log(err);
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
+            summary: 'Erro',
             detail: 'Erro ao buscar produtos',
             life: 2500,
           });
@@ -68,23 +69,20 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
         header: event?.action,
         width: '70%',
         contentStyle: { overflow: 'auto' },
-        baseZIndex: 1000,
+        baseZIndex: 10000,
         maximizable: true,
         data: {
           event: event,
-          productsList: this.productsList,
+          productDatas: this.productsList,
         },
       });
-
       this.ref.onClose.pipe(takeUntil(this.destroy$)).subscribe({
-        next: () => {
-          this.getAPIProductsData();
-        },
+        next: () => this.getAPIProductsDatas(),
       });
     }
   }
 
-  handleProductDeletion(event: {
+  handleDeleteProductAction(event: {
     product_id: string;
     productName: string;
   }): void {
@@ -115,7 +113,7 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
                 life: 2500,
               });
 
-              this.getAPIProductsData();
+              this.getAPIProductsDatas();
             }
           },
           error: (err) => {

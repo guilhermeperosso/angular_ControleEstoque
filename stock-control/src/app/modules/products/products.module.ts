@@ -9,8 +9,9 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -21,7 +22,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductsHomeComponent } from './page/products-home/products-home.component';
 import { PRODUCTS_ROUTES } from './products.routing';
 import { ProductsTableComponent } from './components/products-table/products-table.component';
-import { RippleModule } from 'primeng/ripple';
 import { ProductFormComponent } from './components/product-form/product-form.component';
 
 @NgModule({
@@ -41,11 +41,11 @@ import { ProductFormComponent } from './components/product-form/product-form.com
     InputSwitchModule,
     InputTextModule,
     InputTextareaModule,
+    InputNumberModule,
     DynamicDialogModule,
     DropdownModule,
     ConfirmDialogModule,
     TooltipModule,
-    RippleModule,
   ],
   providers: [DialogService, ConfirmationService],
 })

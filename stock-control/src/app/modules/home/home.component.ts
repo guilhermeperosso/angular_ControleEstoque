@@ -1,12 +1,12 @@
-import { UserService } from './../../services/user/user.service';
 import { Component, OnDestroy } from '@angular/core';
-import { EmailValidator, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, Validators } from '@angular/forms';
+import { SignupUserRequest } from 'src/app/models/interfaces/user/SignupUserRequest';
+import { AuthRequest } from 'src/app/models/interfaces/user/auth/AuthRequest';
+import { UserService } from 'src/app/services/user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { authRequest } from 'src/app/models/interfaces/user/auth/authRequest';
-import { signupUserRequest } from 'src/app/models/interfaces/user/signupUserRequest';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +30,7 @@ export class HomeComponent implements OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userservice: UserService,
+    private userService: UserService,
     private cookieService: CookieService,
     private messageService: MessageService,
     private router: Router
@@ -38,8 +38,8 @@ export class HomeComponent implements OnDestroy {
 
   onSubmitLoginForm(): void {
     if (this.loginForm.value && this.loginForm.valid) {
-      this.userservice
-        .authUser(this.loginForm.value as authRequest)
+      this.userService
+        .authUser(this.loginForm.value as AuthRequest)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
@@ -69,21 +69,20 @@ export class HomeComponent implements OnDestroy {
     }
   }
 
-  onSubmitSignUpForm(): void {
+  onSubmitSignupForm(): void {
     if (this.signupForm.value && this.signupForm.valid) {
-      this.userservice
-        .signupUser(this.signupForm.value as signupUserRequest)
+      this.userService
+        .signupUser(this.signupForm.value as SignupUserRequest)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
             if (response) {
               this.signupForm.reset();
               this.loginCard = true;
-
               this.messageService.add({
                 severity: 'success',
                 summary: 'Sucesso',
-                detail: `Usuário criado com sucesso!`,
+                detail: 'Usuário criado com sucesso!',
                 life: 2000,
               });
             }

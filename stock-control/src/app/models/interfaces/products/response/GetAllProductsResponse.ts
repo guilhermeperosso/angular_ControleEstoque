@@ -4,5 +4,8 @@ export interface GetAllProductsResponse {
   amount: number;
   description: string;
   price: string;
-  category: { id: string, name: string };
+  category: {
+    id: string;
+    name: string;
+  };
 }

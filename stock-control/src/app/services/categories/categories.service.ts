@@ -1,10 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { map, Observable } from 'rxjs';
-
-import { DeleteCategoryResponse } from 'src/app/models/interfaces/categories/response/DeleteCategoryResponse';
-import { GetAllCategoriesResponse } from 'src/app/models/interfaces/categories/response/GetAllCategoriesResponse';
+import { Observable } from 'rxjs';
+import { GetCategoriesResponse } from 'src/app/models/interfaces/categories/responses/GetCategoriesResponse';
 import { environment } from 'src/enviroments/enviroment';
 
 @Injectable({
@@ -22,20 +20,10 @@ export class CategoriesService {
 
   constructor(private http: HttpClient, private cookie: CookieService) {}
 
-  getAllCategories(): Observable<Array<GetAllCategoriesResponse>> {
-    return this.http.get<Array<GetAllCategoriesResponse>>(
+  getAllCategories(): Observable<Array<GetCategoriesResponse>> {
+    return this.http.get<Array<GetCategoriesResponse>>(
       `${this.API_URL}/categories`,
       this.httpOptions
-    );
-  }
-
-  deleteCategory(product_id: string): Observable<DeleteCategoryResponse> {
-    return this.http.delete<DeleteCategoryResponse>(
-      `${this.API_URL}/category/delete`,
-      {
-        ...this.httpOptions,
-        params: { product_id: product_id },
-      }
     );
   }
 }

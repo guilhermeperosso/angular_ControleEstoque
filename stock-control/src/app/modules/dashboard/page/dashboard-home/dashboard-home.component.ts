@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { MessageService } from 'primeng/api';
-import { elementAt, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { GetAllProductsResponse } from 'src/app/models/interfaces/products/response/GetAllProductsResponse';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductsDataTransferService } from 'src/app/shared/services/products/products-data-transfer.service';
@@ -16,7 +16,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   public productsList: Array<GetAllProductsResponse> = [];
 
   public productsChartDatas!: ChartData;
-  public productsChartOPtions!: ChartOptions;
+  public productsChartOptions!: ChartOptions;
 
   constructor(
     private productsService: ProductsService,
@@ -25,10 +25,10 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.getProductsData();
+    this.getProductsDatas();
   }
 
-  getProductsData() {
+  getProductsDatas(): void {
     this.productsService
       .getAllProducts()
       .pipe(takeUntil(this.destroy$))
@@ -45,14 +45,14 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
           this.messageService.add({
             severity: 'error',
             summary: 'Erro',
-            detail: 'Erro ao buscar produtos',
+            detail: 'Erro ao buscar produtos!',
             life: 2500,
           });
         },
       });
   }
 
-  setProductsChartConfig() {
+  setProductsChartConfig(): void {
     if (this.productsList.length > 0) {
       const documentStyle = getComputedStyle(document.documentElement);
       const textColor = documentStyle.getPropertyValue('--text-color');
@@ -75,7 +75,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
         ],
       };
 
-      this.productsChartOPtions = {
+      this.productsChartOptions = {
         maintainAspectRatio: false,
         aspectRatio: 0.8,
         plugins: {
@@ -85,17 +85,19 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
             },
           },
         },
+
         scales: {
           x: {
             ticks: {
               color: textColorSecondary,
-              font: { weight: 500 },
+              font: {
+                weight: 'bold',
+              },
             },
             grid: {
               color: surfaceBorder,
             },
           },
-
           y: {
             ticks: {
               color: textColorSecondary,

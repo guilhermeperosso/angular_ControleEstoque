@@ -8,7 +8,6 @@ import { GetAllProductsResponse } from 'src/app/models/interfaces/products/respo
 export class ProductsDataTransferService {
   public productsDataEmitter$ =
     new BehaviorSubject<Array<GetAllProductsResponse> | null>(null);
-
   public productsDatas: Array<GetAllProductsResponse> = [];
 
   setProductsDatas(products: Array<GetAllProductsResponse>): void {
