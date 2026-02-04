@@ -16,13 +16,17 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CategoriesHomeComponent } from './page/categories-home/categories-home.component';
 import { CATEGORIES_ROUTES } from './categories-routing';
+import { CategoryFormComponent } from './components/category-form/category-form.component';
+import { CategoryTableComponent } from './components/category-table/category-table.component';
+import { RippleModule } from "primeng/ripple";
 
 @NgModule({
-  declarations: [CategoriesHomeComponent],
+  declarations: [CategoriesHomeComponent, CategoryFormComponent, CategoryTableComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -38,11 +42,13 @@ import { CATEGORIES_ROUTES } from './categories-routing';
     InputSwitchModule,
     InputTextModule,
     InputTextareaModule,
+    InputNumberModule,
     DynamicDialogModule,
     DropdownModule,
     ConfirmDialogModule,
     TooltipModule,
-  ],
+    RippleModule
+],
   providers: [DialogService, ConfirmationService],
 })
 export class CategoriesModule {}

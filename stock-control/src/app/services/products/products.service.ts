@@ -4,9 +4,11 @@ import { CookieService } from 'ngx-cookie-service';
 import { Observable, map } from 'rxjs';
 import { CreateProductRequest } from 'src/app/models/interfaces/products/request/CreateProductRequest';
 import { EditProductRequest } from 'src/app/models/interfaces/products/request/EditProductRequest';
+import { SellProductRequest } from 'src/app/models/interfaces/products/request/SellProductRequest';
 import { CreateProductResponse } from 'src/app/models/interfaces/products/response/CreateProductResponse';
 import { DeleteProductResponse } from 'src/app/models/interfaces/products/response/DeleteProductResponse';
 import { GetAllProductsResponse } from 'src/app/models/interfaces/products/response/GetAllProductsResponse';
+import { SellProductResponse } from 'src/app/models/interfaces/products/response/SellProductResponse';
 import { environment } from 'src/enviroments/enviroment';
 
 @Injectable({
@@ -22,14 +24,16 @@ export class ProductsService {
     }),
   };
 
-  constructor(private http: HttpClient, private cookie: CookieService) {}
+  constructor(
+    private http: HttpClient,
+    private cookie: CookieService,
+  ) {}
 
   getAllProducts(): Observable<Array<GetAllProductsResponse>> {
     return this.http
-      .get<Array<GetAllProductsResponse>>(
-        `${this.API_URL}/products`,
-        this.httpOptions
-      )
+      .get<
+        Array<GetAllProductsResponse>
+      >(`${this.API_URL}/products`, this.httpOptions)
       .pipe(map((product) => product.filter((data) => data?.amount > 0)));
   }
 
@@ -41,25 +45,40 @@ export class ProductsService {
         params: {
           product_id: product_id,
         },
-      }
+      },
     );
   }
 
   createProduct(
-    requestDatas: CreateProductRequest
+    requestData: CreateProductRequest,
   ): Observable<CreateProductResponse> {
     return this.http.post<CreateProductResponse>(
       `${this.API_URL}/product`,
-      requestDatas,
-      this.httpOptions
+      requestData,
+      this.httpOptions,
     );
   }
 
-  editProduct(requestDatas: EditProductRequest): Observable<void> {
+  editProduct(requestData: EditProductRequest): Observable<void> {
     return this.http.put<void>(
       `${this.API_URL}/product/edit`,
-      requestDatas,
-      this.httpOptions
+      requestData,
+      this.httpOptions,
+    );
+  }
+
+  sellProduct(
+    requestData: SellProductRequest,
+  ): Observable<SellProductResponse> {
+    return this.http.put<SellProductResponse>(
+      `${this.API_URL}/product/sale`,
+      { amount: requestData?.amount },
+      {
+        ...this.httpOptions,
+        params: {
+          product_id: requestData.product_id,
+        },
+      },
     );
   }
 }

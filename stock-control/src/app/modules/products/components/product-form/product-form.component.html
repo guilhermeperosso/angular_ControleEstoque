@@ -43,12 +43,12 @@
       <input pInputText placeholder="Nome" formControlName="name" />
       <!-- Categoria do Produto -->
       <p-dropdown
+        *ngIf="renderDropdown"
         styleClass="w-full"
         [options]="categoriesDatas"
         [(ngModel)]="selectedCategory"
         optionLabel="name"
         optionValue="id"
-        placeholder="Selecione uma categoria"
         formControlName="category_id"
       ></p-dropdown>
       <!-- Preço do Produto -->
@@ -68,6 +68,37 @@
       >
         <p-button
           [disabled]="!editProductForm.valid"
+          type="submit"
+          label="Concluir"
+        ></p-button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- FORMULÁRIO DE VENDA DE PRODUTO -->
+<div *ngIf="productAction?.event?.action === sellProductAction">
+  <form [formGroup]="sellProductForm" (ngSubmit)="handleSubmitSellProduct()">
+    <div class="card flex flex-column md:flex-column gap-3">
+      <p-dropdown
+        [options]="productsData"
+        [(ngModel)]="sellProductSelected"
+        styleClass="w-full"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Selecione um produto"
+        formControlName="product_id"
+      ></p-dropdown>
+      <input
+        type="number"
+        pInputText
+        placeholder="Quantidade"
+        formControlName="amount"
+      />
+
+      <div class="flex flex-row justify-content-center align-items-center">
+        <p-button
+          [disabled]="!sellProductForm.valid"
           type="submit"
           label="Concluir"
         ></p-button>
